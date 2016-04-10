@@ -1,5 +1,5 @@
 FROM python:3.4.3
-MAINTAINER ClassPass
+MAINTAINER forkloop@gmail.com
 
 RUN groupadd celery && useradd --create-home --home-dir /home/celery -g celery celery
 
@@ -17,7 +17,10 @@ RUN pip install -U pip && \
 RUN mkdir -p /etc/supervisor/conf.d
 
 COPY conf/supervisord.conf /etc/supervisor
-COPY conf/conf.d /etc/supervisor/conf.d
+
+COPY conf/conf.d .
+
+COPY run.sh /usr/local/bin/run.sh
 
 RUN chown celery:celery /var/log/supervisor
 
@@ -27,6 +30,6 @@ RUN { \
 } > celeryconfig.py
 
 #USER celery
-CMD ["supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
-# ENTRYPOINT
+ENTRYPOINT ["/usr/local/bin/run.sh"]
+CMD ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
 
