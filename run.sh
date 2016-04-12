@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 export LOGLEVEL=${LOGLEVEL:=INFO}
 export CELERYTYPE=${CELERYTYPE:=worker}
 export RABBIT=${RABBIT:=false}
